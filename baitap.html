@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6 bài tập JavaScript — Trần Nam Sơn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --bg:#faf9f4; --card:#ffffff; --text:#0f172a; --muted:#64748b;
+    --accent:#297a2e; --accent-soft:rgba(41,122,46,.14);
+    --accent2:#d97706; --accent2-soft:rgba(217,119,6,.14);
+    --border:rgba(15,23,42,.08); --code-bg:#1e293b; --code-text:#e2e8f0;
+    --radius:14px; --shadow:0 1px 3px rgba(15,23,42,.06), 0 8px 24px rgba(15,23,42,.05);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:70px}
+  body{
+    font-family:'Comfortaa', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh;
+    background-image:
+      radial-gradient(ellipse 800px 400px at 10% -10%, rgba(41,122,46,.08), transparent 60%),
+      radial-gradient(ellipse 700px 400px at 110% 0%, rgba(217,119,6,.08), transparent 60%);
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:20px 20px 64px}
+  .idbar{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 18px;margin-bottom:16px;box-shadow:var(--shadow);
+  }
+  .idbar .who{font-weight:700;font-size:.92rem}
+  .idbar .who span{color:var(--accent)}
+  .idbar .meta{font-size:.78rem;color:var(--muted)}
+  .idbar a{color:var(--accent);text-decoration:none;font-weight:600;font-size:.85rem}
+  .idbar a:hover{text-decoration:underline}
+  .sticky-nav{
+    position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;
+    background:color-mix(in srgb, var(--bg) 90%, transparent);backdrop-filter:blur(8px);
+    padding:10px;border-radius:12px;margin-bottom:20px;border:1px solid var(--border);
+  }
+  .sticky-nav a{
+    text-decoration:none;font-size:.78rem;font-weight:600;padding:7px 13px;border-radius:999px;
+    border:1px solid var(--border);background:var(--card);color:var(--muted);transition:all .2s;
+  }
+  .sticky-nav a:hover{color:var(--accent);border-color:var(--accent);transform:translateY(-1px)}
+  .sticky-nav a.home{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .ex-section{position:relative;margin-bottom:8px}
+  .anchor-top{
+    position:absolute;top:14px;right:18px;z-index:5;font-size:.72rem;text-decoration:none;
+    color:var(--muted);font-weight:600;opacity:.7;transition:opacity .2s;
+  }
+  .anchor-top:hover{opacity:1;color:var(--accent)}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px;margin-bottom:20px}
+  .ex-head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .ex-num{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--accent);color:#fff;font-weight:700;font-size:1rem;box-shadow:0 4px 12px rgba(41,122,46,.3)}
+  .ex-head h2{font-size:1.3rem;font-weight:700}
+  .ex-req{color:var(--muted);font-size:.9rem;margin-bottom:22px;padding-left:56px}
+  label{display:block;font-size:.82rem;font-weight:600;color:var(--muted);margin-bottom:6px}
+  input[type=text],input[type=number]{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:10px;font-family:inherit;font-size:.95rem;color:var(--text);background:var(--bg);transition:border-color .2s, box-shadow .2s}
+  input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .btn{font-family:inherit;font-weight:600;cursor:pointer;border:none;border-radius:10px;padding:11px 20px;font-size:.9rem;transition:all .2s ease}
+  .btn-primary{background:var(--accent);color:#fff;box-shadow:0 4px 12px rgba(41,122,46,.3)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(41,122,46,.4)}
+  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
+  .btn-ghost:hover{color:var(--text);border-color:var(--accent)}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+  .row > *{flex:1;min-width:160px}
+  .row .btn{flex:0 0 auto}
+  .result-box{margin-top:16px;padding:16px 18px;border-radius:10px;background:var(--bg);border:1px dashed var(--border);font-size:.95rem;word-break:break-all;min-height:52px;display:flex;align-items:center;gap:12px}
+  .result-box:empty::before{content:"Kết quả sẽ hiển thị ở đây";color:var(--muted);font-size:.85rem}
+  details.code-view{margin-top:18px;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--code-bg)}
+  details.code-view summary{cursor:pointer;padding:12px 18px;font-size:.85rem;font-weight:600;color:#cbd5e1;list-style:none;display:flex;align-items:center;gap:8px;user-select:none}
+  details.code-view summary::-webkit-details-marker{display:none}
+  details.code-view summary::before{content:"\25B8";transition:transform .25s;color:var(--accent2)}
+  details.code-view[open] summary::before{transform:rotate(90deg)}
+  details.code-view summary:hover{color:#fff}
+  details.code-view pre{padding:16px 18px;overflow-x:auto;font-family:'Courier New',monospace;font-size:.8rem;line-height:1.65;color:var(--code-text);border-top:1px solid rgba(255,255,255,.08)}
+  .cm{color:#94a3b8}.kw{color:#7dd3fc}.fn{color:#fbbf24}.str{color:#86efac}.num{color:#fca5a5}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:28px;padding-top:18px;border-top:1px solid var(--border)}
+  @media (max-width:560px){.card{padding:20px 16px}.ex-req{padding-left:0}.anchor-top{display:none}}
+
+
+      .acc-item{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;background:var(--bg)}
+      .acc-header{width:100%;text-align:left;font-family:inherit;font-weight:600;font-size:.95rem;padding:15px 18px;background:transparent;border:none;cursor:pointer;color:var(--text);display:flex;justify-content:space-between;align-items:center;transition:background .2s}
+      .acc-header:hover{background:var(--accent-soft)}
+      .acc-icon{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font-size:1rem;line-height:1;transition:transform .35s ease}
+      .acc-item.open .acc-icon{transform:rotate(45deg)}
+      .acc-body{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.4,0,.2,1)}
+      .acc-item.open .acc-body{max-height:240px}
+      .acc-content{padding:14px 18px 16px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--border)}
+    
+      .pw-display{font-family:'Courier New',monospace;font-size:1.5rem;letter-spacing:.18em;font-weight:700;color:var(--accent);flex:1}
+      .pw-strength{font-size:.78rem;color:var(--muted)}
+    
+      .swatch{flex:none;width:44px;height:44px;border-radius:10px;border:2px solid #fff;box-shadow:0 0 0 1px var(--border);background:#eee}
+      .rgb-out{font-family:'Courier New',monospace;font-weight:700;font-size:1.05rem}
+      .err{color:#dc2626;font-size:.85rem}
+    
+      .item-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:16px}
+      .item{padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg);font-size:.85rem;text-align:center;transition:all .2s}
+      .item:hover{border-color:var(--accent);background:var(--accent-soft);transform:translateY(-1px)}
+      .page-info{font-size:.82rem;color:var(--muted);margin-bottom:12px}
+      .pager{display:flex;gap:6px;flex-wrap:wrap}
+      .page-btn{min-width:38px;height:38px;padding:0 10px;border-radius:8px;border:1px solid var(--border);background:var(--card);font-family:inherit;font-weight:600;cursor:pointer;color:var(--muted);transition:all .2s}
+      .page-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+      .page-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+      .page-btn:disabled{opacity:.35;cursor:not-allowed}
+    
+      .arena{position:relative;height:320px;border-radius:12px;overflow:hidden;background:linear-gradient(var(--border) 1px, transparent 1px) 0 0/100% 40px, linear-gradient(90deg, var(--border) 1px, transparent 1px) 0 0/40px 100%, var(--bg);border:1px solid var(--border)}
+      .player{position:absolute;left:50%;transform:translateX(-50%);width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,var(--accent),#3f9d45);box-shadow:0 6px 18px rgba(41,122,46,.4);display:grid;place-items:center;color:#fff;font-weight:700;font-size:1.3rem;transition:top .18s ease-out}
+      .arena-hint{position:absolute;top:12px;left:12px;font-size:.75rem;color:var(--muted);background:var(--card);padding:6px 12px;border-radius:999px;border:1px solid var(--border)}
+      .pos-readout{position:absolute;bottom:12px;right:12px;font-size:.78rem;font-weight:600;background:var(--card);padding:6px 12px;border-radius:999px;border:1px solid var(--border);color:var(--accent)}
+      .dpad{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:14px}
+      .dpad button{width:52px;height:44px;border-radius:10px;border:1px solid var(--border);background:var(--card);font-size:1.1rem;cursor:pointer;color:var(--accent);font-weight:700;transition:all .15s}
+      .dpad button:active{background:var(--accent);color:#fff;transform:scale(.94)}
+    
+      .bmi-result{margin-top:18px;padding:20px;border-radius:12px;text-align:center;display:none}
+      .bmi-result.show{display:block;animation:fadeUp .35s ease}
+      @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+      .bmi-num{font-size:2.6rem;font-weight:700;line-height:1.1}
+      .bmi-cat{font-size:1.05rem;font-weight:700;margin-top:4px}
+      .bmi-scale{display:flex;height:10px;border-radius:999px;overflow:hidden;margin-top:16px;border:1px solid var(--border)}
+      .bmi-scale span{flex:1}
+      .bmi-scale .s1{background:#3b82f6}.bmi-scale .s2{background:#22c55e}.bmi-scale .s3{background:#f59e0b}.bmi-scale .s4{background:#ef4444}
+      .bmi-labels{display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-top:4px;flex-wrap:wrap;gap:4px}
+      .cat-under{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35)}.cat-under .bmi-num,.cat-under .bmi-cat{color:#2563eb}
+      .cat-normal{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.35)}.cat-normal .bmi-num,.cat-normal .bmi-cat{color:#16a34a}
+      .cat-over{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.4)}.cat-over .bmi-num,.cat-over .bmi-cat{color:#d97706}
+    
+</style>
+</head>
+<body id="top">
+<div class="wrap">
+  <div class="idbar">
+    <div class="who"><span>Trần Nam Sơn</span> · 221A010397 · INT440701</div>
+    <div class="meta"><a href="42.html">&larr; Trang chủ (42.html)</a></div>
+  </div>
+  <nav class="sticky-nav">
+    <a class="home" href="42.html">&larr; Trang chủ</a>
+    <a href="#tk5">TK5</a><a href="#tk7">TK7</a><a href="#tk8">TK8</a><a href="#k4">K4</a><a href="#k6">K6</a><a href="#k8">K8</a>
+  </nav>
+
+  <section class="ex-section" id="tk5">
+    <a class="anchor-top" href="#top">&uarr; Đầu trang</a>
+    <div class="card">
+    <div class="ex-head"><div class="ex-num">TK5</div><h2>Accordion đơn giản</h2></div>
+    <p class="ex-req">Bấm vào tiêu đề để nội dung trượt xuống/lên — dùng <b>classList.toggle()</b> kết hợp <b>max-height</b> và <b>transition</b> trong CSS.</p>
+    
+    <div class="acc-item open">
+      <button class="acc-header">Accordion là gì? <span class="acc-icon">+</span></button>
+      <div class="acc-body"><div class="acc-content">Accordion là thành phần giao diện gồm nhiều tiêu đề, mỗi tiêu đề che một đoạn nội dung. Khi bấm vào tiêu đề, nội dung tương ứng sẽ mở ra (trượt xuống) và các mục khác có thể tự đóng lại.</div></div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-header">Nó hoạt động ra sao? <span class="acc-icon">+</span></button>
+      <div class="acc-body"><div class="acc-content">CSS đặt <b>max-height: 0</b> và <b>overflow: hidden</b> cho phần thân. Khi thêm class <b>.open</b>, max-height tăng lên một giá trị đủ lớn; thuộc tính <b>transition: max-height .45s</b> tạo hiệu ứng trượt mượt mà.</div></div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-header">Vai trò của classList.toggle() <span class="acc-icon">+</span></button>
+      <div class="acc-body"><div class="acc-content"><b>classList.toggle('open')</b> tự động thêm class nếu chưa có và gỡ bỏ nếu đã có — chỉ một dòng code là có thể đóng/mở mà không cần kiểm tra thủ công.</div></div>
+    </div>
+    <details class="code-view">
+      <summary>Xem mã nguồn JavaScript</summary>
+<pre><span class="cm">// TK5 — Accordion: classList.toggle + max-height/transition</span>
+document.<span class="fn">querySelectorAll</span>(<span class="str">'.acc-header'</span>).<span class="fn">forEach</span>(btn => {
+  btn.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, () => {
+    btn.parentElement.classList.<span class="fn">toggle</span>(<span class="str">'open'</span>);
+  });
+});
+
+<span class="cm">/* CSS */</span>
+.acc-body { <span class="kw">max-height</span>: <span class="num">0</span>; <span class="kw">overflow</span>: hidden;
+           <span class="kw">transition</span>: max-height .45s ease; }
+.acc-item.open .acc-body { <span class="kw">max-height</span>: <span class="num">240px</span>; }</pre>
+    </details>
+  </div>
+
+  </section>
+  <section class="ex-section" id="tk7">
+    <a class="anchor-top" href="#top">&uarr; Đầu trang</a>
+    <div class="card">
+    <div class="ex-head"><div class="ex-num">TK7</div><h2>Tạo chuỗi mật khẩu ngẫu nhiên</h2></div>
+    <p class="ex-req">Hàm tạo chuỗi dài <b>8 ký tự</b>, chỉ gồm <b>chữ cái thường</b> và <b>chữ số</b>. Bấm nút để sinh mới.</p>
+    
+    <div class="row">
+      <button class="btn btn-primary" id="pwGen">Tạo mật khẩu mới</button>
+      <button class="btn btn-ghost" id="pwCopy">Sao chép</button>
+    </div>
+    <div class="result-box">
+      <span class="pw-display" id="pwOut">a1b2c3d4</span>
+      <span class="pw-strength">8 ký tự · chữ thường + số</span>
+    </div>
+    <details class="code-view">
+      <summary>Xem mã nguồn JavaScript</summary>
+<pre><span class="cm">// TK7 — Tạo mật khẩu ngẫu nhiên 8 ký tự (chữ thường + số)</span>
+<span class="kw">function</span> <span class="fn">taoMatKhau</span>() {
+  <span class="kw">const</span> kyTu = <span class="str">'abcdefghijklmnopqrstuvwxyz0123456789'</span>;
+  <span class="kw">let</span> kq = <span class="str">''</span>;
+  <span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i &lt; <span class="num">8</span>; i++) {
+    <span class="kw">const</span> viTri = Math.<span class="fn">floor</span>(Math.<span class="fn">random</span>() * kyTu.length);
+    kq += kyTu[viTri];
+  }
+  <span class="kw">return</span> kq;
+}</pre>
+    </details>
+  </div>
+
+  </section>
+  <section class="ex-section" id="tk8">
+    <a class="anchor-top" href="#top">&uarr; Đầu trang</a>
+    <div class="card">
+    <div class="ex-head"><div class="ex-num">TK8</div><h2>Chuyển đổi màu Hex sang RGB</h2></div>
+    <p class="ex-req">Nhập mã màu Hex (ví dụ <b>#FF0000</b> hoặc <b>#F00</b>) — hàm trả về giá trị <b>rgb(r, g, b)</b> tương ứng.</p>
+    
+    <div class="row">
+      <div>
+        <label for="hexIn">Mã màu Hex</label>
+        <input type="text" id="hexIn" value="#FF0000" maxlength="7" placeholder="#RRGGBB">
+      </div>
+      <button class="btn btn-primary" id="hexBtn">Chuyển đổi</button>
+    </div>
+    <div class="result-box" id="rgbBox">
+      <span class="swatch" id="rgbSwatch" style="background:#FF0000"></span>
+      <span class="rgb-out" id="rgbOut">rgb(255, 0, 0)</span>
+    </div>
+    <details class="code-view">
+      <summary>Xem mã nguồn JavaScript</summary>
+<pre><span class="cm">// TK8 — Hex sang RGB (hỗ trợ #RGB và #RRGGBB)</span>
+<span class="kw">function</span> <span class="fn">hexSangRgb</span>(hex) {
+  hex = hex.<span class="fn">replace</span>(<span class="str">'#'</span>, <span class="str">''</span>);
+  <span class="kw">if</span> (hex.length === <span class="num">3</span>)
+    hex = hex.<span class="fn">split</span>(<span class="str">''</span>).<span class="fn">map</span>(c => c + c).<span class="fn">join</span>(<span class="str">''</span>);
+  <span class="kw">const</span> r = <span class="fn">parseInt</span>(hex.<span class="fn">substr</span>(<span class="num">0</span>, <span class="num">2</span>), <span class="num">16</span>);
+  <span class="kw">const</span> g = <span class="fn">parseInt</span>(hex.<span class="fn">substr</span>(<span class="num">2</span>, <span class="num">2</span>), <span class="num">16</span>);
+  <span class="kw">const</span> b = <span class="fn">parseInt</span>(hex.<span class="fn">substr</span>(<span class="num">4</span>, <span class="num">2</span>), <span class="num">16</span>);
+  <span class="kw">return</span> <span class="str">`rgb(${r}, ${g}, ${b})`</span>;
+}</pre>
+    </details>
+  </div>
+
+  </section>
+  <section class="ex-section" id="k4">
+    <a class="anchor-top" href="#top">&uarr; Đầu trang</a>
+    <div class="card">
+    <div class="ex-head"><div class="ex-num">K4</div><h2>Phân trang danh sách</h2></div>
+    <p class="ex-req">Danh sách <b>50 mục</b>, hiển thị <b>10 mục mỗi trang</b>. Bấm nút số để chuyển trang.</p>
+    
+    <div class="page-info" id="pageInfo">Đang hiển thị mục 1 – 10 / 50</div>
+    <div class="item-list" id="itemList"></div>
+    <div class="pager" id="pager"></div>
+    <details class="code-view">
+      <summary>Xem mã nguồn JavaScript</summary>
+<pre><span class="cm">// K4 — Phân trang: 50 mục, 10 mục/trang</span>
+<span class="kw">const</span> TONG = <span class="num">50</span>, MOI_TRANG = <span class="num">10</span>;
+<span class="kw">let</span> trangHienTai = <span class="num">1</span>;
+
+<span class="kw">function</span> <span class="fn">hienThi</span>(trang) {
+  <span class="kw">const</span> bd = (trang - <span class="num">1</span>) * MOI_TRANG;
+  list.innerHTML = <span class="str">''</span>;
+  <span class="kw">for</span> (<span class="kw">let</span> i = bd; i &lt; bd + MOI_TRANG; i++) {
+    <span class="kw">const</span> div = document.<span class="fn">createElement</span>(<span class="str">'div'</span>);
+    div.className = <span class="str">'item'</span>;
+    div.textContent = <span class="str">`Mục số ${i + 1}`</span>;
+    list.<span class="fn">appendChild</span>(div);
+  }
+}
+<span class="cm">// Số trang = Math.ceil(TONG / MOI_TRANG) = 5</span></pre>
+    </details>
+  </div>
+
+  </section>
+  <section class="ex-section" id="k6">
+    <a class="anchor-top" href="#top">&uarr; Đầu trang</a>
+    <div class="card">
+    <div class="ex-head"><div class="ex-num">K6</div><h2>Xử lý sự kiện bàn phím</h2></div>
+    <p class="ex-req">Dùng phím <b>mũi tên LÊN / XUỐNG</b> (hoặc nút trên màn hình) để dịch chuyển khối vuông.</p>
+    
+    <div class="arena" id="arena">
+      <span class="arena-hint">Nhấn &uarr; / &darr; để di chuyển khối</span>
+      <div class="player" id="player" style="top:132px">&#9670;</div>
+      <span class="pos-readout" id="posReadout">Vị trí Y: 132 px</span>
+    </div>
+    <div class="dpad">
+      <button id="btnUp" aria-label="Lên">&#9650;</button>
+      <button id="btnDown" aria-label="Xuống">&#9660;</button>
+    </div>
+    <details class="code-view">
+      <summary>Xem mã nguồn JavaScript</summary>
+<pre><span class="cm">// K6 — Lắng nghe keydown, dịch chuyển div theo &uarr; / &darr;</span>
+<span class="kw">let</span> y = <span class="num">132</span>; <span class="cm">// vị trí ban đầu (px)</span>
+<span class="kw">const</span> BUOC = <span class="num">20</span>;
+
+document.<span class="fn">addEventListener</span>(<span class="str">'keydown'</span>, e => {
+  <span class="kw">if</span> (e.key === <span class="str">'ArrowUp'</span>)   y = Math.<span class="fn">max</span>(<span class="num">0</span>, y - BUOC);
+  <span class="kw">if</span> (e.key === <span class="str">'ArrowDown'</span>) y = Math.<span class="fn">min</span>(<span class="num">264</span>, y + BUOC);
+  player.style.top = y + <span class="str">'px'</span>;
+  e.<span class="fn">preventDefault</span>(); <span class="cm">// chặn cuộn trang</span>
+});</pre>
+    </details>
+  </div>
+
+  </section>
+  <section class="ex-section" id="k8">
+    <a class="anchor-top" href="#top">&uarr; Đầu trang</a>
+    <div class="card">
+    <div class="ex-head"><div class="ex-num">K8</div><h2>Tính chỉ số BMI và phân loại</h2></div>
+    <p class="ex-req">Nhập cân nặng (kg) và chiều cao (m) — hàm tính BMI = cân nặng / chiều cao&sup2; và phân loại.</p>
+    
+    <div class="row">
+      <div>
+        <label for="kgIn">Cân nặng (kg)</label>
+        <input type="number" id="kgIn" min="20" max="200" step="0.1" placeholder="VD: 65">
+      </div>
+      <div>
+        <label for="mIn">Chiều cao (m)</label>
+        <input type="number" id="mIn" min="1.0" max="2.3" step="0.01" placeholder="VD: 1.70">
+      </div>
+      <button class="btn btn-primary" id="bmiBtn">Tính BMI</button>
+    </div>
+    <div class="bmi-result" id="bmiResult">
+      <div class="bmi-num" id="bmiNum">&mdash;</div>
+      <div class="bmi-cat" id="bmiCat">&mdash;</div>
+      <div class="bmi-scale"><span class="s1"></span><span class="s2"></span><span class="s3"></span><span class="s4"></span></div>
+      <div class="bmi-labels"><span>&lt;18.5 Thiếu cân</span><span>18.5&ndash;24.9 Bình thường</span><span>25&ndash;29.9 Thừa cân</span><span>&ge;30 Béo phì</span></div>
+    </div>
+    <details class="code-view">
+      <summary>Xem mã nguồn JavaScript</summary>
+<pre><span class="cm">// K8 — Tính BMI và phân loại</span>
+<span class="kw">function</span> <span class="fn">tinhBMI</span>(kg, m) {
+  <span class="kw">const</span> bmi = kg / (m * m);
+  <span class="kw">let</span> loai;
+  <span class="kw">if</span>      (bmi &lt; <span class="num">18.5</span>) loai = <span class="str">'Thiếu cân'</span>;
+  <span class="kw">else if</span> (bmi &lt; <span class="num">25</span>)   loai = <span class="str">'Bình thường'</span>;
+  <span class="kw">else</span>                 loai = <span class="str">'Thừa cân'</span>;
+  <span class="kw">return</span> { bmi: bmi.<span class="fn">toFixed</span>(<span class="num">1</span>), loai };
+}</pre>
+    </details>
+  </div>
+
+  </section>
+  <footer>Trần Nam Sơn · 221A010397 · INT440701 &mdash; 6 bài tập JavaScript</footer>
+</div>
+<script>
+(function(){
+  document.querySelectorAll('.acc-header').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      btn.parentElement.classList.toggle('open');
+    });
+  });
+})();(function(){
+  var pwOut = document.getElementById('pwOut');
+  function taoMatKhau(){
+    var kyTu = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    var kq = '';
+    for (var i = 0; i < 8; i++){
+      kq += kyTu[Math.floor(Math.random() * kyTu.length)];
+    }
+    return kq;
+  }
+  document.getElementById('pwGen').addEventListener('click', function(){
+    pwOut.textContent = taoMatKhau();
+  });
+  document.getElementById('pwCopy').addEventListener('click', function(){
+    var t = pwOut.textContent, btn = document.getElementById('pwCopy'), old = btn.textContent;
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t);
+    else {
+      var ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    }
+    btn.textContent = 'Đã chép!';
+    setTimeout(function(){ btn.textContent = old; }, 1200);
+  });
+})();(function(){
+  var hexIn = document.getElementById('hexIn');
+  var rgbOut = document.getElementById('rgbOut');
+  var rgbSwatch = document.getElementById('rgbSwatch');
+  function hexSangRgb(hex){
+    hex = String(hex).trim().replace(/^#/, '');
+    if (/^[0-9a-fA-F]{3}$/.test(hex))
+      hex = hex.split('').map(function(c){ return c + c; }).join('');
+    if (!/^[0-9a-fA-F]{6}$/.test(hex)) return null;
+    var r = parseInt(hex.substr(0,2), 16), g = parseInt(hex.substr(2,2), 16), b = parseInt(hex.substr(4,2), 16);
+    return { css: 'rgb(' + r + ', ' + g + ', ' + b + ')' };
+  }
+  function doConvert(){
+    var res = hexSangRgb(hexIn.value);
+    if (!res){
+      rgbOut.innerHTML = '<span class="err">Mã Hex không hợp lệ. Thử #FF0000 hoặc #F00</span>';
+      rgbSwatch.style.background = '#eee'; return;
+    }
+    rgbOut.textContent = res.css;
+    rgbSwatch.style.background = res.css;
+  }
+  document.getElementById('hexBtn').addEventListener('click', doConvert);
+  hexIn.addEventListener('input', doConvert);
+})();(function(){
+  var TONG = 50, MOI_TRANG = 10, trangHienTai = 1;
+  var itemList = document.getElementById('itemList');
+  var pager = document.getElementById('pager');
+  var pageInfo = document.getElementById('pageInfo');
+  var soTrang = Math.ceil(TONG / MOI_TRANG);
+  function renderItems(trang){
+    itemList.innerHTML = '';
+    var bd = (trang - 1) * MOI_TRANG, kt = Math.min(bd + MOI_TRANG, TONG);
+    for (var i = bd; i < kt; i++){
+      var div = document.createElement('div');
+      div.className = 'item'; div.textContent = 'Mục số ' + (i + 1);
+      itemList.appendChild(div);
+    }
+    pageInfo.textContent = 'Đang hiển thị mục ' + (bd + 1) + ' – ' + kt + ' / ' + TONG;
+  }
+  function renderPager(){
+    pager.innerHTML = '';
+    var prev = document.createElement('button');
+    prev.className = 'page-btn'; prev.textContent = '\u2039'; prev.disabled = (trangHienTai === 1);
+    prev.addEventListener('click', function(){ if (trangHienTai > 1){ trangHienTai--; renderAll(); } });
+    pager.appendChild(prev);
+    for (var p = 1; p <= soTrang; p++){
+      (function(pg){
+        var b = document.createElement('button');
+        b.className = 'page-btn' + (pg === trangHienTai ? ' active' : '');
+        b.textContent = pg;
+        b.addEventListener('click', function(){ trangHienTai = pg; renderAll(); });
+        pager.appendChild(b);
+      })(p);
+    }
+    var next = document.createElement('button');
+    next.className = 'page-btn'; next.textContent = '\u203A'; next.disabled = (trangHienTai === soTrang);
+    next.addEventListener('click', function(){ if (trangHienTai < soTrang){ trangHienTai++; renderAll(); } });
+    pager.appendChild(next);
+  }
+  function renderAll(){ renderItems(trangHienTai); renderPager(); }
+  renderAll();
+})();(function(){
+  var player = document.getElementById('player');
+  var posReadout = document.getElementById('posReadout');
+  var arena = document.getElementById('arena');
+  var y = 132, BUOC = 20;
+  function setY(ny){
+    var maxY = arena.clientHeight - player.offsetHeight;
+    y = Math.max(0, Math.min(maxY, ny));
+    player.style.top = y + 'px';
+    posReadout.textContent = 'Vị trí Y: ' + y + ' px';
+  }
+  function move(dir){ setY(y + dir * BUOC); }
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowUp'){ move(-1); e.preventDefault(); }
+    else if (e.key === 'ArrowDown'){ move(1); e.preventDefault(); }
+  });
+  document.getElementById('btnUp').addEventListener('click', function(){ move(-1); });
+  document.getElementById('btnDown').addEventListener('click', function(){ move(1); });
+})();(function(){
+  var kgIn = document.getElementById('kgIn'), mIn = document.getElementById('mIn');
+  var bmiResult = document.getElementById('bmiResult'), bmiNum = document.getElementById('bmiNum'), bmiCat = document.getElementById('bmiCat');
+  function tinhBMI(kg, m){
+    var bmi = kg / (m * m), loai, cls;
+    if (bmi < 18.5){ loai = 'Thiếu cân'; cls = 'cat-under'; }
+    else if (bmi < 25){ loai = 'Bình thường'; cls = 'cat-normal'; }
+    else if (bmi < 30){ loai = 'Thừa cân'; cls = 'cat-over'; }
+    else { loai = 'Béo phì (thừa cân nặng)'; cls = 'cat-over'; }
+    return { bmi: bmi.toFixed(1), loai: loai, cls: cls };
+  }
+  function doBMI(){
+    var kg = parseFloat(kgIn.value), m = parseFloat(mIn.value);
+    if (!kg || !m || kg <= 0 || m <= 0){
+      bmiResult.className = 'bmi-result show cat-over';
+      bmiNum.textContent = '\u2014'; bmiCat.textContent = 'Vui lòng nhập cân nặng và chiều cao hợp lệ'; return;
+    }
+    var r = tinhBMI(kg, m);
+    bmiResult.className = 'bmi-result show ' + r.cls;
+    bmiNum.textContent = r.bmi; bmiCat.textContent = r.loai;
+  }
+  document.getElementById('bmiBtn').addEventListener('click', doBMI);
+  kgIn.addEventListener('input', doBMI); mIn.addEventListener('input', doBMI);
+})();
+</script>
+</body>
+</html>

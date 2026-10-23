@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>42 — Trang chủ · Trần Nam Sơn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf9f4; --card:#ffffff; --text:#0f172a; --muted:#64748b;
+    --accent:#297a2e; --accent-soft:rgba(41,122,46,.14);
+    --accent2:#d97706; --border:rgba(15,23,42,.08); --radius:14px;
+    --shadow:0 1px 3px rgba(15,23,42,.06), 0 8px 24px rgba(15,23,42,.05);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Comfortaa', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh;
+    background-image:
+      radial-gradient(ellipse 800px 400px at 10% -10%, rgba(41,122,46,.1), transparent 60%),
+      radial-gradient(ellipse 700px 400px at 110% 0%, rgba(217,119,6,.1), transparent 60%);
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:32px 20px 64px}
+  .hero{text-align:center;margin-bottom:28px}
+  .avatar{width:96px;height:96px;border-radius:50%;margin:0 auto 16px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:2rem;font-weight:700;box-shadow:0 8px 24px rgba(41,122,46,.35)}
+  .eyebrow{display:inline-block;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent);padding:5px 14px;border-radius:999px;font-weight:600;margin-bottom:14px}
+  h1{font-size:clamp(1.7rem,4.5vw,2.6rem);font-weight:700;letter-spacing:-.01em;background:linear-gradient(120deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px}
+  .hero .sub{color:var(--muted);font-size:.95rem}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px;margin-bottom:20px}
+  .sec-title{font-size:1.15rem;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+  .sec-title .bar{width:4px;height:20px;border-radius:2px;background:linear-gradient(var(--accent),var(--accent2))}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+  .info-item{padding:14px 16px;border:1px solid var(--border);border-radius:10px;background:var(--bg);transition:all .2s}
+  .info-item:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .info-item .k{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;margin-bottom:3px}
+  .info-item .v{font-size:.92rem;font-weight:600;word-break:break-word}
+  .info-item .v a{color:var(--accent);text-decoration:none}
+  .info-item .v a:hover{text-decoration:underline}
+  .hobby{display:inline-block;margin:4px 6px 4px 0;padding:7px 14px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-size:.82rem;font-weight:600;border:1px solid var(--accent)}
+  .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+  .menu-card{display:block;text-decoration:none;color:inherit;padding:20px;border:1px solid var(--border);border-radius:12px;background:var(--bg);transition:all .25s ease;position:relative;overflow:hidden}
+  .menu-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(var(--accent),var(--accent2));transform:scaleY(0);transform-origin:top;transition:transform .3s}
+  .menu-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 10px 24px rgba(41,122,46,.15);background:#fff}
+  .menu-card:hover::before{transform:scaleY(1)}
+  .menu-card .code{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.1em;padding:3px 10px;border-radius:999px;background:var(--accent);color:#fff;margin-bottom:10px}
+  .menu-card h3{font-size:1rem;font-weight:700;margin-bottom:5px}
+  .menu-card p{font-size:.8rem;color:var(--muted);line-height:1.5}
+  .menu-card .go{margin-top:12px;font-size:.8rem;font-weight:700;color:var(--accent);display:inline-flex;align-items:center;gap:5px;transition:gap .2s}
+  .menu-card:hover .go{gap:10px}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:28px;padding-top:18px;border-top:1px solid var(--border)}
+  @media (max-width:560px){.card{padding:20px 16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="avatar">S</div>
+    <span class="eyebrow">Trang chủ &middot; Bài tập 42</span>
+    <h1>Trần Nam Sơn</h1>
+    <p class="sub">MSSV 221A010397 &middot; Lớp INT440701 &middot; Bài tập JavaScript</p>
+  </header>
+
+  <section class="card">
+    <div class="sec-title"><span class="bar"></span>Thông tin cá nhân</div>
+    <div class="info-grid">
+      <div class="info-item"><div class="k">Họ và tên</div><div class="v">Trần Nam Sơn</div></div>
+      <div class="info-item"><div class="k">Mã số sinh viên</div><div class="v">221A010397</div></div>
+      <div class="info-item"><div class="k">Lớp</div><div class="v">INT440701</div></div>
+      <div class="info-item"><div class="k">Ngày sinh</div><div class="v">25/02/2004</div></div>
+      <div class="info-item"><div class="k">Quê quán</div><div class="v">Đà Nẵng</div></div>
+      <div class="info-item"><div class="k">Địa chỉ cư trú</div><div class="v">2737/47 Phạm Thế Hiển, Phường Bình Đông, TP.HCM</div></div>
+      <div class="info-item"><div class="k">Số điện thoại</div><div class="v">0902 697 013</div></div>
+      <div class="info-item"><div class="k">Email</div><div class="v"><a href="mailto:Trannamson2004@gmail.com">Trannamson2004@gmail.com</a></div></div>
+      <div class="info-item"><div class="k">Facebook</div><div class="v"><a href="https://www.facebook.com/tran.nam.son.559509" target="_blank" rel="noopener">facebook.com/tran.nam.son.559509</a></div></div>
+    </div>
+    <div style="margin-top:18px">
+      <div class="k" style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;margin-bottom:8px">Sở thích</div>
+      <span class="hobby">Xem phim</span>
+      <span class="hobby">Đọc báo</span>
+      <span class="hobby">Xem tin tức</span>
+      <span class="hobby">Ăn uống</span>
+      <span class="hobby">Vui chơi giải trí</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="sec-title"><span class="bar"></span>Menu bài tập <span style="font-weight:400;font-size:.8rem;color:var(--muted)">(bấm để mở bài tương ứng trong baitap.html)</span></div>
+    <div class="menu-grid">
+      <a class="menu-card" href="baitap.html#tk5">
+        <span class="code">TK5</span>
+        <h3>Accordion đơn giản</h3>
+        <p>Tiêu đề + nội dung ẩn, bấm để trượt xuống/lên bằng classList.toggle và max-height/transition.</p>
+        <span class="go">Mở bài &rarr;</span>
+      </a>
+      <a class="menu-card" href="baitap.html#tk7">
+        <span class="code">TK7</span>
+        <h3>Tạo chuỗi mật khẩu ngẫu nhiên</h3>
+        <p>Hàm sinh chuỗi 8 ký tự gồm chữ cái thường và chữ số.</p>
+        <span class="go">Mở bài &rarr;</span>
+      </a>
+      <a class="menu-card" href="baitap.html#tk8">
+        <span class="code">TK8</span>
+        <h3>Chuyển đổi Hex sang RGB</h3>
+        <p>Nhập mã màu #FF0000, nhận về rgb(255, 0, 0) tương ứng.</p>
+        <span class="go">Mở bài &rarr;</span>
+      </a>
+      <a class="menu-card" href="baitap.html#k4">
+        <span class="code">K4</span>
+        <h3>Phân trang danh sách</h3>
+        <p>50 mục, 10 mục/trang, các nút phân trang 1, 2, 3, 4, 5.</p>
+        <span class="go">Mở bài &rarr;</span>
+      </a>
+      <a class="menu-card" href="baitap.html#k6">
+        <span class="code">K6</span>
+        <h3>Xử lý sự kiện bàn phím</h3>
+        <p>Phím mũi tên LÊN/XUỐNG dịch chuyển khối div trong khu vực chơi.</p>
+        <span class="go">Mở bài &rarr;</span>
+      </a>
+      <a class="menu-card" href="baitap.html#k8">
+        <span class="code">K8</span>
+        <h3>Tính chỉ số BMI và phân loại</h3>
+        <p>Input cân nặng (kg) + chiều cao (m), phân loại Thiếu cân / Bình thường / Thừa cân.</p>
+        <span class="go">Mở bài &rarr;</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>Trần Nam Sơn &middot; 221A010397 &middot; INT440701 &mdash; Trang chủ bài tập 42</footer>
+</div>
+</body>
+</html>
